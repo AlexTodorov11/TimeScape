@@ -36,6 +36,7 @@ export async function POST(req: Request) {
     })
 
     // Remove password from response
+    // eslint-disable-next-line no-redeclare
     const { password, ...userWithoutPassword } = user
 
     return new NextResponse(
