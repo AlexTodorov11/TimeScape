@@ -5,8 +5,10 @@ import { prisma } from "@/lib/db"
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { projectId: string } }
+  context: { params: { projectId: string } }
 ) {
+  // Access params through context.params
+  const { projectId } = context.params;
   try {
     const session = await getServerSession(authOptions)
     
@@ -19,7 +21,7 @@ export async function PATCH(
 
     const project = await prisma.project.update({
       where: {
-        id: params.projectId,
+        id: context.params.projectId,
         userId: session.user.id,
       },
       data: {
@@ -40,8 +42,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { projectId: string } }
+  context: { params: { projectId: string } }
 ) {
+  // Access params through context.params
+  const { projectId } = context.params;
   try {
     const session = await getServerSession(authOptions)
     
@@ -51,7 +55,7 @@ export async function DELETE(
 
     await prisma.project.delete({
       where: {
-        id: params.projectId,
+        id: context.params.projectId,
         userId: session.user.id,
       },
     })
