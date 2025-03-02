@@ -16,10 +16,12 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:h-full relative">
-        <img
+        <Image
           src="/Rectangle.png"
           alt="Authentication background"
           className="w-full h-full object-cover"
+          width={1920}
+          height={1080}
         />
         <div className="absolute inset-0 bg-black/0 flex items-center justify-center p-8">
           <div className="max-w-md">

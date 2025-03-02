@@ -11,6 +11,7 @@ import {
   Settings, 
   LogOut 
 } from "lucide-react"
+import Image from 'next/image'
 
 const routes = [
   {
@@ -48,7 +49,7 @@ export function Sidebar() {
     <div className="space-y-4 py-4 flex flex-col bg-[#111827] text-white">
       <div className="px-3 py-2 flex-1">
         <Link href="/dashboard" className="flex items-center pl-3 mb-14 logoAndicon">
-          <img src="/favicon.ico" alt="TimeScape" className="h-10 w-10" />
+          <Image src="/favicon.ico" alt="TimeScape" className="h-10 w-10" width={40} height={40} />
           <h1 className="text-2xl font-bold ml-2">TimeScape</h1>
         </Link>
         <div className="space-y-1">

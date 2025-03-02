@@ -81,7 +81,7 @@ export function TaskActions({ task }: TaskActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the task "{task.title}".
+              This will permanently delete the task &quot;{task.title}&quot;.
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
