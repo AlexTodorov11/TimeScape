@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     })
 
     // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
+    const { password: passwordOmitted, ...userWithoutPassword } = user
 
     return new NextResponse(
       JSON.stringify({
@@ -45,8 +45,8 @@ export async function POST(req: Request) {
       }),
       { status: 201 }
     )
-  } catch (error) {
-    console.error("[REGISTER_POST]", error)
+  } catch (err) {
+    console.error("[REGISTER_POST]", err)
     return new NextResponse(
       JSON.stringify({
         message: "Something went wrong",
