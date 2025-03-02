@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 
 export async function PATCH(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { projectId: string } }
 ) {
   try {
@@ -40,7 +40,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { projectId: string } }
 ) {
   try {
