@@ -13,6 +13,13 @@ interface Project {
   tasks: any[]
 }
 
+interface Task {
+  id: string
+  title: string
+  completed: boolean
+  projectId: string
+}
+
 interface DashboardData {
   recentProjects: Project[]
   stats: {
@@ -22,8 +29,22 @@ interface DashboardData {
   }
 }
 
-export function DashboardClient({ data }: { data: DashboardData }) {
-  const { recentProjects, stats } = data
+interface DashboardProps {
+  userId: string;
+  projects: Project[];  // Define Project type based on your data structure
+  tasks: Task[];       // Define Task type based on your data structure
+}
+
+export function DashboardClient(props: DashboardProps) {
+  const { projects, tasks } = props
+  
+  const stats = {
+    totalProjects: projects.length,
+    totalTasks: tasks.length,
+    completedTasks: tasks.filter(task => task.completed).length
+  }
+  
+  const recentProjects = projects.slice(0, 6) // Show last 6 projects
 
   return (
     <div className="p-6">
