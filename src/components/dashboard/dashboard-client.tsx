@@ -3,45 +3,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Activity, CheckCircle, Clock } from "lucide-react"
 import { NewProjectDialog } from "@/components/projects/new-project-dialog"
-
-interface Project {
-  id: string
-  title: string
-  description: string | null
-  startDate: Date
-  endDate: Date
-  tasks: any[]
-}
-
-interface Task {
-  id: string
-  title: string
-  completed: boolean
-  projectId: string
-}
-
-interface DashboardData {
-  recentProjects: Project[]
-  stats: {
-    totalProjects: number
-    totalTasks: number
-    completedTasks: number
-  }
-}
+import { Project, Task } from '@prisma/client'; // or wherever your types are defined
 
 interface DashboardProps {
   userId: string;
-  projects: Project[];  // Define Project type based on your data structure
-  tasks: Task[];       // Define Task type based on your data structure
+  projects: Project[];
+  tasks: Task[];
 }
 
-export function DashboardClient(props: DashboardProps) {
-  const { projects, tasks } = props
-  
+export default function DashboardClient({ userId, projects, tasks }: DashboardProps) {
   const stats = {
     totalProjects: projects.length,
     totalTasks: tasks.length,
-    completedTasks: tasks.filter(task => task.completed).length
+    completedTasks: tasks.filter(task => task.status === 'COMPLETED').length
   }
   
   const recentProjects = projects.slice(0, 6) // Show last 6 projects
@@ -99,7 +73,7 @@ export function DashboardClient(props: DashboardProps) {
                 </p>
                 <div className="mt-4">
                   <p className="text-sm font-medium">
-                    Tasks: {project.tasks.length}
+                    Tasks: {tasks.filter(task => task.projectId === project.id).length}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}
