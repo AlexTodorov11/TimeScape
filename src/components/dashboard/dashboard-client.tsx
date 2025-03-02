@@ -6,12 +6,11 @@ import { NewProjectDialog } from "@/components/projects/new-project-dialog"
 import { Project, Task } from '@prisma/client'; // or wherever your types are defined
 
 interface DashboardProps {
-  userId: string;
   projects: Project[];
   tasks: Task[];
 }
 
-export default function DashboardClient({ userId, projects, tasks }: DashboardProps) {
+export default function DashboardClient({ projects, tasks }: DashboardProps) {
   const stats = {
     totalProjects: projects.length,
     totalTasks: tasks.length,
