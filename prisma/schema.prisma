@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  username  String    @unique
+  password  String
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  color       String        @default("#3498db")
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  tasks       Task[]
+  labels      ProjectLabel[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  priority    Priority      @default(BACKLOG)
+
+  @@map("projects")
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        TaskType @default(TASK)
+  startDate   DateTime
+  endDate     DateTime
+  status      Status   @default(PENDING)
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("tasks")
+}
+
+model Label {
+  id       String         @id @default(cuid())
+  name     String
+  color    String        @default("#e74c3c")
+  projects ProjectLabel[]
+
+  @@map("labels")
+}
+
+model ProjectLabel {
+  projectId String
+  labelId   String
+  project   Project @relation(fields: [projectId], references: [id])
+  label     Label   @relation(fields: [labelId], references: [id])
+
+  @@id([projectId, labelId])
+  @@map("project_labels")
+}
+
+enum TaskType {
+  TASK
+  BLOCK
+  BUG
+}
+
+enum Status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Priority {
+  BACKLOG
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}

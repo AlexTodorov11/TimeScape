@@ -1,0 +1,1 @@
+export type ProjectPriority = "BACKLOG" | "LOW" | "MEDIUM" | "HIGH" | "URGENT" 
