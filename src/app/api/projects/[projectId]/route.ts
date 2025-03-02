@@ -1,10 +1,11 @@
 import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 
 export async function PATCH(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { projectId: string } }
 ) {
   try {
@@ -14,7 +15,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
-    const body = await req.json()
+    const body = await request.json()
     const { title, description, priority, startDate, endDate } = body
 
     const project = await prisma.project.update({
@@ -39,8 +40,8 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: Request,
-  context: { params: { projectId: string } }
+  request: NextRequest,
+  { params }: { params: { projectId: string } }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -51,7 +52,7 @@ export async function DELETE(
 
     await prisma.project.delete({
       where: {
-        id: context.params.projectId,
+        id: params.projectId,
         userId: session.user.id,
       },
     })
